@@ -4,9 +4,10 @@ Image post-processing aims to alter images such that they depict a desired repre
 """
 import warnings
 
-# import numpy as np
+
 # import pydensecrf.densecrf as crf
 # import pydensecrf.utils as crf_util
+import numpy as np
 import pymia.filtering.filter as pymia_fltr
 import SimpleITK as sitk
 
@@ -29,8 +30,15 @@ class ImagePostProcessing(pymia_fltr.Filter):
             sitk.Image: The post-processed image.
         """
 
-        # todo: replace this filter by a post-processing - or do we need post-processing at all?
-        warnings.warn('No post-processing implemented. Can you think about something?')
+        # Apply simple thresholding as a placeholder for post-processing
+        img_arr = sitk.GetArrayFromImage(image)
+
+        # Threshold the image array to keep values within a desired range, e.g., [0, 1]
+        img_arr = np.clip(img_arr, 0, 1)
+
+        # Convert back to SimpleITK Image
+        image = sitk.GetImageFromArray(img_arr)
+        image.CopyInformation(image)  # retain spatial info of the original image
 
         return image
 
