@@ -4,9 +4,10 @@ Image post-processing aims to alter images such that they depict a desired repre
 """
 import warnings
 
-# import numpy as np
+
 # import pydensecrf.densecrf as crf
 # import pydensecrf.utils as crf_util
+import numpy as np
 import pymia.filtering.filter as pymia_fltr
 import SimpleITK as sitk
 
@@ -29,10 +30,17 @@ class ImagePostProcessing(pymia_fltr.Filter):
             sitk.Image: The post-processed image.
         """
 
-        # Apply a median filter as a post-processing step
-        post_processed_image = sitk.Median(image, [1, 1, 1])
+        # Apply simple thresholding as a placeholder for post-processing
+        img_arr = sitk.GetArrayFromImage(image)
 
-        return post_processed_image
+        # Threshold the image array to keep values within a desired range, e.g., [0, 1]
+        img_arr = np.clip(img_arr, 0, 1)
+
+        # Convert back to SimpleITK Image
+        image = sitk.GetImageFromArray(img_arr)
+        image.CopyInformation(image)  # retain spatial info of the original image
+
+        return image
 
     def __str__(self):
         """Gets a printable string representation.
@@ -103,13 +111,13 @@ class ImagePostProcessing(pymia_fltr.Filter):
 #         stack = np.stack([img_t2, img_ir], axis=3)
 #
 #         # Create the pairwise bilateral term from the above images.
-#         # The two s{dims,chan} parameters are model hyper-parameters defining
+#         # The two `s{dims,chan}` parameters are model hyper-parameters defining
 #         # the strength of the location and image content bi-laterals, respectively.
 #
 #         # higher weight equals stronger
 #         pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(1, 1), img=stack, chdim=3)
 #
-#         # compat (Compatibility) is the "strength" of this potential.
+#         # `compat` (Compatibility) is the "strength" of this potential.
 #         compat = 10
 #         # compat = np.array([1, 1], np.float32)
 #         # weight --> lower equals stronger
