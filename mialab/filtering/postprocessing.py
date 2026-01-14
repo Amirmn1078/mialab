@@ -30,7 +30,10 @@ class ImagePostProcessing(pymia_fltr.Filter):
         """
 
         # todo: replace this filter by a post-processing - or do we need post-processing at all?
-        warnings.warn('No post-processing implemented. Can you think about something?')
+        image = sitk.Median(image,
+                            [1, 1, 1])  # simple denoising: 3×3×3 median to remove speckles while preserving edges
+        #Seems to be done
+
 
         return image
 
