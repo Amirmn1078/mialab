@@ -1,0 +1,5 @@
+Pipeline,Dice,Hausdorff,Recall,Sensitivity
+UNet – Base (no preprocessing),0.593 ± 0.148,31.549 ± 24.165,0.438 ± 0.160,0.453 ± 0.166
+UNet – Group A (Foreground Z-score + Clipping),0.666 ± 0.109,29.021 ± 23.303,0.510 ± 0.126,0.521 ± 0.136
+UNet – Group B (N4 Bias Field Correction),0.602 ± 0.148,29.358 ± 20.327,0.446 ± 0.148,0.480 ± 0.167
+UNet – Group A + Group B,0.730 ± 0.052,13.843 ± 14.409,0.578 ± 0.068,0.595 ± 0.066
